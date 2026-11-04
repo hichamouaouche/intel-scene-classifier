@@ -1,0 +1,5 @@
+# Versions testées avec Python 3.14.
+streamlit==1.66.1
+tensorflow==2.22.0rc0
+numpy==2.5.4
+pillow==13.0.0
