@@ -1,6 +1,13 @@
+[client]
+toolbarMode = "minimal"
+
 [theme]
 base = "light"
 primaryColor = "#0F766E"
-backgroundColor = "#F5F7F6"
+backgroundColor = "#F4F6F8"
 secondaryBackgroundColor = "#FFFFFF"
-textColor = "#17211F"
+textColor = "#16202A"
+borderColor = "#DDE3E8"
+showWidgetBorder = true
+baseRadius = "10px"
+headingFontWeights = 700
