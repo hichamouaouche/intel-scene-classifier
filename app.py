@@ -13,7 +13,8 @@ from scene_classifier.config import (
     LOW_CONFIDENCE,
     MODEL_DIR,
     PROJECT,
-    TEST_DATA_DIR,
+    IMAGE_DIR,
+    SAMPLE_DATA_DIR,
 )
 from scene_classifier.dataset import list_images, true_class
 from scene_classifier.evaluation import load_metrics
@@ -39,7 +40,7 @@ def pick_random_image():
 def select_dataset_image():
     """Renvoie (chemin de l'image, nom affiché, vraie classe) ou (None, None, None)."""
     if not dataset_images:
-        st.warning(f"Aucune image trouvée dans {TEST_DATA_DIR}.")
+        st.warning(f"Aucune image trouvée dans {IMAGE_DIR}.")
         return None, None, None
     filter_col, image_col = st.columns(2)
     with filter_col:
@@ -56,7 +57,9 @@ def select_dataset_image():
     with image_col:
         choice = st.selectbox("Image", options, key="dataset_image")
     st.button("Image au hasard", icon=":material/shuffle:", on_click=pick_random_image, width="stretch")
-    return TEST_DATA_DIR / choice, choice, true_class(choice)
+    if IMAGE_DIR == SAMPLE_DATA_DIR:
+        st.caption(f"Échantillon de {len(dataset_images)} images du jeu de test.")
+    return IMAGE_DIR / choice, choice, true_class(choice)
 
 
 def render_analysis_tab():
@@ -181,7 +184,7 @@ except (OSError, ValueError) as error:
     st.error(f"Impossible de charger le modèle {MODEL_DIR.name} : {error}")
     st.stop()
 
-dataset_images = get_images()
+dataset_images = get_images(IMAGE_DIR)
 metrics = load_metrics()
 
 st.markdown(ui.hero(metrics, model.count_params()), unsafe_allow_html=True)

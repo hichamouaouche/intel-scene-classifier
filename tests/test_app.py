@@ -1,9 +1,9 @@
 import pytest
 from streamlit.testing.v1 import AppTest
 
-from scene_classifier.config import METRICS_PATH, ROOT_DIR, TEST_DATA_DIR
+from scene_classifier.config import IMAGE_DIR, METRICS_PATH, ROOT_DIR
 
-pytestmark = pytest.mark.skipif(not TEST_DATA_DIR.exists(), reason="dataset de test absent")
+pytestmark = pytest.mark.skipif(not IMAGE_DIR.exists(), reason="aucune image disponible")
 
 
 @pytest.fixture

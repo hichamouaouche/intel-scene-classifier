@@ -6,6 +6,8 @@ d'un réseau de neurones convolutif (CNN) entraîné sur le dataset
 
 Six scènes sont reconnues : bâtiments, forêt, glacier, montagne, mer et rue.
 
+**Démo en ligne : https://shareappio-cmmmwerrt4ve6cbgmdhjyq.streamlit.app/**
+
 ![Onglet « Analyser une image »](docs/screenshots/accueil.png)
 
 ## Fonctionnalités
@@ -74,12 +76,13 @@ des données (retournement, rotation, zoom, contraste) sont intégrées au modè
 │   ├── evaluation.py         # Calcul et lecture des métriques
 │   └── ui.py                 # Styles et composants visuels de l'interface
 ├── scripts/
-│   └── evaluate.py           # Évalue le modèle et écrit reports/metrics.json
+│   └── evaluate.py           # Évalue le modèle et écrit models/metrics.json
 ├── tests/                    # Tests automatiques (pytest)
 ├── models/
-│   └── cnn_intel_best.keras/ # Modèle entraîné (architecture et poids)
+│   ├── cnn_intel_best.keras/ # Modèle entraîné (architecture et poids)
+│   └── metrics.json          # Métriques sur le jeu de test
+├── samples/                  # Échantillon de 60 images du jeu de test
 ├── data/                     # Dataset Intel : seg_train, seg_test, seg_pred
-├── reports/                  # Métriques générées (non versionnées)
 ├── assets/                   # Logos de l'ENSET et de l'UH2C
 ├── docs/screenshots/         # Captures d'écran
 ├── .streamlit/config.toml    # Thème de l'interface
@@ -97,17 +100,15 @@ source .venv/bin/activate
 pip install -r requirements-dev.txt
 ```
 
-Le dataset n'est pas versionné. Téléchargez-le depuis
+L'application fonctionne directement avec l'échantillon de 60 images du
+dossier `samples/` et les métriques fournies dans `models/metrics.json`.
+
+Pour utiliser les 3 000 images du jeu de test ou recalculer les métriques,
+téléchargez le dataset depuis
 [Kaggle](https://www.kaggle.com/datasets/puneet6060/intel-image-classification)
 et placez-le dans `data/`, avec un dossier par scène :
-`data/seg_test/seg_test/<scène>/<image>.jpg`.
-
-Calculez ensuite les métriques du modèle. Elles sont enregistrées dans
-`reports/metrics.json` et affichées dans l'onglet « Performances du modèle » :
-
-```bash
-python -m scripts.evaluate
-```
+`data/seg_test/seg_test/<scène>/<image>.jpg`. L'application l'utilise alors
+automatiquement à la place de l'échantillon.
 
 ## Utilisation
 

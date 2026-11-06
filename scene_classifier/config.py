@@ -5,7 +5,11 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).resolve().parent.parent
 MODEL_DIR = ROOT_DIR / "models" / "cnn_intel_best.keras"
 TEST_DATA_DIR = ROOT_DIR / "data" / "seg_test" / "seg_test"
-METRICS_PATH = ROOT_DIR / "reports" / "metrics.json"
+# Petit échantillon du jeu de test, versionné pour la version en ligne.
+SAMPLE_DATA_DIR = ROOT_DIR / "samples"
+# Images proposées dans l'interface : le jeu de test complet s'il est présent.
+IMAGE_DIR = TEST_DATA_DIR if TEST_DATA_DIR.exists() else SAMPLE_DATA_DIR
+METRICS_PATH = ROOT_DIR / "models" / "metrics.json"
 ASSETS_DIR = ROOT_DIR / "assets"
 
 # Même ordre (alphabétique) que les sorties du modèle à l'entraînement.

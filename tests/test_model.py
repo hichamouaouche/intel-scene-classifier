@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from PIL import Image
 
-from scene_classifier.config import CLASSES, TEST_DATA_DIR
+from scene_classifier.config import CLASSES, IMAGE_DIR, SAMPLE_DATA_DIR, TEST_DATA_DIR
 from scene_classifier.dataset import list_images, true_class
 from scene_classifier.evaluation import compute_metrics
 from scene_classifier.model import load_model, predict_proba, preprocess
@@ -31,10 +31,10 @@ def test_probabilities_sum_to_one(model):
     np.testing.assert_allclose(probabilities.sum(axis=1), 1, rtol=1e-5)
 
 
-@pytest.mark.skipif(not TEST_DATA_DIR.exists(), reason="dataset de test absent")
+@pytest.mark.skipif(not IMAGE_DIR.exists(), reason="aucune image disponible")
 def test_known_image_is_classified(model):
     path = "buildings/20057.jpg"
-    probabilities = predict_proba(model, [Image.open(TEST_DATA_DIR / path)])[0]
+    probabilities = predict_proba(model, [Image.open(IMAGE_DIR / path)])[0]
     assert CLASSES[probabilities.argmax()] == true_class(path)
 
 
@@ -53,3 +53,7 @@ def test_compute_metrics():
     assert metrics["accuracy"] == pytest.approx(2 / 3)
     assert metrics["confusion_matrix"]["rows"][0][:2] == [1, 1]
     assert metrics["low_confidence"]["images"] == 1
+
+
+def test_samples_cover_every_class():
+    assert {true_class(path) for path in list_images(SAMPLE_DATA_DIR)} == set(CLASSES)
